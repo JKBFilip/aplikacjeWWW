@@ -1,0 +1,113 @@
+<link rel="stylesheet" type="text/css" href="style/style_css.css">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="pl" />
+<meta name="Author" content="Jakub Filipiak" />
+<script src="java_script/kolorujtlo.js" type="text/javascript"></script>
+<script src="java_script/timedate.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<title>Hodowla żółwia wodnego</title>
+</head>
+<body onload="startclock()">
+
+<div id="zegarek"></div>
+<div id="data"></div>
+ <form method="POST" name="background">
+        <input type="button" value="Żółty" onclick="changeBackground('#FFFF00')">
+        <input type="button" value="Czarny" onclick="changeBackground('#000000')">
+        <input type="button" value="Biały" onclick="changeBackground('#FFFFFF')">
+        <input type="button" value="Zielony" onclick="changeBackground('#00FF00')">
+        <input type="button" value="Niebieski" onclick="changeBackground('#0000FF')">
+        <input type="button" value="Pomarańczowy" onclick="changeBackground('#FF8000')">
+        <input type="button" value="Szary" onclick="changeBackground('#C0C0C0')">
+        <input type="button" value="Czerwony" onclick="changeBackground('#FF0000')">
+    </form>
+	
+	<div id="animacjaTestowal" class="test-block">Kliknij, a się powiększę</div>
+
+<script>
+    $("#animacjaTestowal").on("click", function(){
+        $(this).animate({
+            width: "500px",
+            opacity: 0.4,
+            fontSize: "3em",
+            borderWidth: "10px"
+        }, 1500);
+    });
+</script>
+<div id="animacjaTestowa2" class="test-block">
+    Najedź kursorem, a się powiększę
+</div>
+
+<script>
+    $("#animacjaTestowa2").on({
+        "mouseover" : function() {
+            $(this).animate({
+                width: 300
+            }, 800);
+        },
+        "mouseout" : function() {
+            $(this).animate({
+                width: 200
+            }, 800);
+        }
+    });
+</script>
+<div id="animacjaTestowa3" class="test-block">
+    Klikaj, abym urósł
+</div>
+<script>
+$( "#animacjaTestowa3" ).on( "click", function() {
+    if ( !$( this ).is( ":animated" ) ) {
+        $( this ).animate({
+            width: "+=" + 50,
+            height: "+=" + 10,
+            opacity: "+=" + 0.1,
+            duration: 3000 // inny sposób deklaracji czasu trwania animacji
+        });
+    }
+});
+</script>
+	<header>
+		
+	<h1 class="header">Jak hodować żółwia wodnego</h1>
+		<nav>
+		<ul>
+		
+			<li><a href="index.html">MENU </a></li>
+			<li><a href="podstrony/gatunek.html">Wybór gatunku </a></li>
+			<li><a href="podstrony/akwarium.html">Akwarium </a></li>
+			<li><a href="podstrony/temperatura.html">Temperatura i oświetlenie </a></li>
+			<li><a href="podstrony/zywienie.html">Żywienie </a></li>
+			<li><a href="podstrony/zdrowie.html">Zdrowie i higiena </a></li>
+			<li><a href="podstrony/kontakt.html">KONTAKT </a></li>
+		</ul>
+		</nav>
+	</header>
+	 <main>
+        <h2 class="header">Witaj w naszej galerii!</h2>
+        
+                
+                
+               
+            
+                <td><img src="obrazy/obraz1.jpg" width="500" height="400" alt="Obraz 1"></td>
+                <td><img src="obrazy/obraz2.jpg" class="scaled-image" alt="Obraz 2"></td>
+                <td><img src="obrazy/obraz3.jpg" class="scaled-image" alt="Obraz 3"></td>
+                <td><img src="obrazy/obraz4.jpg" class="scaled-image" alt="Obraz 4"></td>
+                <td><img src="obrazy/obraz5.jpg" class="scaled-image" alt="Obraz 5"></td>
+                <td><img src="obrazy/obraz6.jpg" class="scaled-image" alt="Obraz 6"></td>
+                <td><img src="obrazy/obraz7.jpg" width="550" height="400" alt="Obraz 7"></td>
+                <td><img src="obrazy/obraz8.jpg"  width="550" height="400" alt="Obraz 8"></td>
+                <td><img src="obrazy/obraz9.jpg" width="570" height="400" alt="Obraz 9"></td>
+				
+			
+           
+        
+    </main>
+
+	   
+	<footer>
+        <p>&copy; Jakub Filipiak ISI4</p>
+	</footer>
+</body>
