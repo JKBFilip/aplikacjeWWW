@@ -1,6 +1,9 @@
 <?php
 // --- Uruchomienie sesji i wczytanie konfiguracji ---
 session_start();
+if (!isset($_SESSION['koszyk'])) {
+    $_SESSION['koszyk'] = []; 
+}
 require_once '../cfg.php'; 
 
 // --- Połączenie z bazą danych ---
@@ -242,23 +245,32 @@ case 'dodaj_do_koszyka':
     break;
 
 case 'usun_z_koszyka':
-    if (isset($_GET['id'])) {
-        UsunZKoszyka($_GET['id']);
-        echo "Produkt został usunięty z koszyka.";
-    }
+    if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    UsunZKoszyka($_GET['id']);
+	} else {
+    echo "Nieprawidłowe ID produktu.";
+	}
     break;
 
 case 'edytuj_koszyk':
-    if (isset($_GET['id']) && isset($_POST['ilosc'])) {
-        EdytujIloscWKoszyku($_GET['id'], intval($_POST['ilosc']));
-        echo "Ilość produktu została zaktualizowana.";
+    if (isset($_GET['id']) && isset($_POST['ilosc']) && is_numeric($_POST['ilosc'])) {
+        $id = intval($_GET['id']);
+        $ilosc = intval($_POST['ilosc']);
+        EdytujIloscWKoszyku($id, $ilosc);
     } else {
-        echo '<form method="POST" action="admin.php?action=edytuj_koszyk&id=' . $_GET['id'] . '">
-            <label>Ilość:</label><input type="number" name="ilosc" required>
-            <button type="submit">Zapisz</button>
-        </form>';
+        if (isset($_GET['id'])) {
+            // Formularz do edycji ilości
+            echo '<form method="POST" action="admin.php?action=edytuj_koszyk&id=' . intval($_GET['id']) . '">
+                <label for="ilosc">Ilość:</label>
+                <input type="number" name="ilosc" min="0" required>
+                <button type="submit">Zapisz</button>
+            </form>';
+        } else {
+            echo "Nie podano ID produktu do edycji.";
+        }
     }
     break;
+
 
 case 'delete_product':
     if (isset($_GET['id'])) {
@@ -525,6 +537,46 @@ function PokazKoszyk($link) {
     echo '<p><strong>Suma: ' . number_format($suma, 2) . ' zł</strong></p>';
     echo '<br><a href="admin.php" style="display:inline-block;padding:10px 15px;background-color:#007BFF;color:white;text-decoration:none;border-radius:5px;">Wróć do strony głównej</a>';
 }
+
+
+function UsunZKoszyka($id) {
+    if (!isset($_SESSION['koszyk'])) {
+        echo "Koszyk jest pusty.";
+        return;
+    }
+
+    if (isset($_SESSION['koszyk'][$id])) {
+        unset($_SESSION['koszyk'][$id]);
+        echo "Produkt został usunięty z koszyka.";
+        header("Refresh:3; url=admin.php?action=pokaz_koszyk"); // Przekierowanie do koszyka
+        exit;
+    } else {
+        echo "Produkt o podanym ID nie istnieje w koszyku.";
+    }
+}
+function EdytujIloscWKoszyku($id, $ilosc) {
+    if (!isset($_SESSION['koszyk'])) {
+        echo "Koszyk jest pusty.";
+        return;
+    }
+
+    if (isset($_SESSION['koszyk'][$id])) {
+        if ($ilosc > 0) {
+            $_SESSION['koszyk'][$id] = $ilosc; // Aktualizacja ilości
+            echo "Ilość produktu została zaktualizowana.";
+        } else {
+            unset($_SESSION['koszyk'][$id]); // Usunięcie produktu, jeśli ilość to 0
+            echo "Produkt został usunięty z koszyka, ponieważ ilość wynosiła 0.";
+        }
+        header("Refresh:3; url=admin.php?action=pokaz_koszyk"); // Przekierowanie do koszyka
+        exit;
+    } else {
+        echo "Produkt o podanym ID nie istnieje w koszyku.";
+    }
+}
+
+
+
 
 
 

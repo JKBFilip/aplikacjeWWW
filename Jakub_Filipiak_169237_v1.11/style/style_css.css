@@ -95,31 +95,37 @@ figcaption {
     user-select: none;
 }
 
+
 .video-gallery {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: flex; /* Elastyczny układ */
+    flex-wrap: wrap; /* Przenoszenie elementów do nowego wiersza */
+    gap: 20px; /* Odstępy między elementami */
+    justify-content: center; /* Wyśrodkowanie w poziomie */
 }
 
 .video {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    flex: 1 1 calc(33.333% - 20px); /* Szerokość jednego elementu to 1/3 dostępnego miejsca */
+    max-width: 33%; /* Ograniczenie maksymalnej szerokości */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Cień dla estetyki */
+    padding: 10px;
+    background: #f9f9f9;
     border-radius: 8px;
-    padding: 15px;
-    width: 100%;
-    max-width: 640px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    text-align: center; /* Wyśrodkowanie tekstu */
 }
 
-.video h2 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    color: #0066cc;
+.video iframe {
+    width: 100%; /* Dopasowanie szerokości iframe do kontenera */
+    border-radius: 5px; /* Zaokrąglenie rogów */
 }
 
-.video p {
-    color: #666;
-    font-size: 0.9em;
-    margin-top: 10px;
+@media (max-width: 768px) {
+    .video {
+        flex: 1 1 calc(50% - 20px); /* Dwa filmy w wierszu na mniejszych ekranach */
+    }
+}
+
+@media (max-width: 480px) {
+    .video {
+        flex: 1 1 100%; /* Jeden film w wierszu na bardzo małych ekranach */
+    }
 }
